@@ -1,10 +1,12 @@
 package ainor.com.my.myweather;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -120,6 +122,12 @@ public class MainActivity extends AppCompatActivity {
     public void checkWeather(View view) {
 
         Log.i("City Name", cityNameEditText.getText().toString());
+
+        // to hide the keyboard
+
+        InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        mgr.hideSoftInputFromWindow(cityNameEditText.getWindowToken(),0);
 
         DownloadTask task = new DownloadTask();
 
