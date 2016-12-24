@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button checkButton;
     EditText cityNameEditText;
+    TextView resultTextView;
 
     public class DownloadTask extends AsyncTask<String,Void,String> {
 
@@ -73,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
             try {
 
+                String message = "";
+
                 JSONObject jsonObject = null;
 
                 jsonObject = new JSONObject(result);
@@ -87,9 +91,23 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject jsonPart = array.getJSONObject(i);
 
+                    String main ="";
+                    String description = "";
+
+                    main = jsonPart.getString("main");
+                    description = jsonPart.getString("description");
+
                     Log.i("main", jsonPart.getString("main"));
 
                     Log.i("description", jsonPart.getString("description"));
+
+                    if (main != "" && description != "") {
+                        message +=  main +" : " + description + "\r\n";
+                    }
+                }
+
+                if (message != "") {
+                    resultTextView.setText(message);
                 }
 
             } catch (JSONException e) {
@@ -126,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
         checkButton = (Button) findViewById(R.id.checkButton);
         cityNameEditText = (EditText) findViewById(R.id.cityNameEditText);
+        resultTextView = (TextView) findViewById(R.id.resultTextView);
 
     }
 
