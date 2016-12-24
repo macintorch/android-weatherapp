@@ -77,22 +77,13 @@ public class MainActivity extends AppCompatActivity {
 
                 jsonObject = new JSONObject(result);
 
-              //  String weatherInfo = jsonObject.getString("weather");
+                String weatherInfo = jsonObject.getString("weather");
 
-              // JSONArray array = new JSONArray(weatherInfo);
-
-
+               JSONArray array = new JSONArray(weatherInfo);
 
                 Log.i("Result content", result);
-              // Log.i("Weather content", weatherInfo);
+               Log.i("Weather content", weatherInfo);
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-
-                /*
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject jsonPart = array.getJSONObject(i);
 
@@ -101,7 +92,10 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("description", jsonPart.getString("description"));
                 }
 
-                */
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -114,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         String result = null;
 
         try {
-            result = task.execute("http://api.openweathermap.org/data/2.5/forecast?q=" + cityNameEditText.getText().toString() + "&mode=json&appid=8fc9866e66c062de7b3f59d611f2b023").get();
+            result = task.execute("http://api.openweathermap.org/data/2.5/weather?q="+ cityNameEditText.getText().toString()+",uk&appid=8fc9866e66c062de7b3f59d611f2b023").get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
