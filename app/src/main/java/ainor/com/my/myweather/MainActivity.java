@@ -72,12 +72,27 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(result);
 
             try {
-                JSONObject jsonObject = new JSONObject(result);
 
-                String weatherInfo = jsonObject.getString("weather");
+                JSONObject jsonObject = null;
 
-                JSONArray array = new JSONArray(weatherInfo);
+                jsonObject = new JSONObject(result);
 
+              //  String weatherInfo = jsonObject.getString("weather");
+
+              // JSONArray array = new JSONArray(weatherInfo);
+
+
+
+                Log.i("Result content", result);
+              // Log.i("Weather content", weatherInfo);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+
+                /*
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject jsonPart = array.getJSONObject(i);
 
@@ -85,20 +100,30 @@ public class MainActivity extends AppCompatActivity {
 
                     Log.i("description", jsonPart.getString("description"));
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+
+                */
         }
     }
 
-
-    public void checkWeather (View view) {
-
-
+    public void checkWeather(View view) {
 
         Log.i("City Name", cityNameEditText.getText().toString());
 
+        DownloadTask task = new DownloadTask();
+
+        String result = null;
+
+        try {
+            result = task.execute("http://api.openweathermap.org/data/2.5/forecast?q=" + cityNameEditText.getText().toString() + "&mode=json&appid=8fc9866e66c062de7b3f59d611f2b023").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,16 +133,6 @@ public class MainActivity extends AppCompatActivity {
         checkButton = (Button) findViewById(R.id.checkButton);
         cityNameEditText = (EditText) findViewById(R.id.cityNameEditText);
 
-        DownloadTask task = new DownloadTask();
-
-        String result = null;
-
-        try {
-            result = task.execute("http://api.openweathermap.org/data/2.5/forecast?q=semenyih,my&mode=json&appid=8fc9866e66c062de7b3f59d611f2b023").get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
     }
+
 }
