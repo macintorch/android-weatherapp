@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,10 +62,10 @@ public class MainActivity extends AppCompatActivity {
 
                 return result;
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+
+                Toast.makeText(getApplicationContext(),"Could not find weather", Toast.LENGTH_LONG);
+
             }
 
 
@@ -110,10 +111,12 @@ public class MainActivity extends AppCompatActivity {
 
                 if (message != "") {
                     resultTextView.setText(message);
+                } else {
+                    Toast.makeText(getApplicationContext(),"Could not find weather", Toast.LENGTH_LONG);
                 }
 
             } catch (JSONException e) {
-                e.printStackTrace();
+                Toast.makeText(getApplicationContext(),"Could not find weather", Toast.LENGTH_LONG);
             }
 
         }
