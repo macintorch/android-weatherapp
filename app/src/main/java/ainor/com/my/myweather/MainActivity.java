@@ -19,9 +19,11 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.concurrent.ExecutionException;
 
 
@@ -132,17 +134,20 @@ public class MainActivity extends AppCompatActivity {
 
         mgr.hideSoftInputFromWindow(cityNameEditText.getWindowToken(),0);
 
-        DownloadTask task = new DownloadTask();
-
-        String result = null;
-
         try {
-            result = task.execute("http://api.openweathermap.org/data/2.5/weather?q="+ cityNameEditText.getText().toString()+",uk&appid=8fc9866e66c062de7b3f59d611f2b023").get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+            String encodedCityName = URLEncoder.encode(cityNameEditText.getText().toString(), "UTF-8");
+
+            DownloadTask task = new DownloadTask();
+
+            String result = null;
+            result = task.execute("http://api.openweathermap.org/data/2.5/weather?q="+ encodedCityName+",uk&appid=8fc9866e66c062de7b3f59d611f2b023").get();
+
+
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(),"Could not find weather", Toast.LENGTH_LONG);
         }
+
+
 
     }
 
